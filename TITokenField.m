@@ -542,10 +542,6 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 	[self addTarget:self action:@selector(didEndEditing) forControlEvents:UIControlEventEditingDidEnd];
 	[self addTarget:self action:@selector(didChangeText) forControlEvents:UIControlEventEditingChanged];
 	
-	[self.layer setShadowColor:[[UIColor blackColor] CGColor]];
-	[self.layer setShadowOpacity:0.6];
-	[self.layer setShadowRadius:12];
-	
 	[self setPromptText:@"To:"];
     [self setText:kTextEmpty];
     self.promptColor = [UIColor colorWithWhite:0.5 alpha:1];
@@ -564,7 +560,6 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 #pragma mark Property Overrides
 - (void)setFrame:(CGRect)frame {
 	[super setFrame:frame];
-	[self.layer setShadowPath:[[UIBezierPath bezierPathWithRect:self.bounds] CGPath]];
 	[self layoutTokensAnimated:NO];
 }
 
@@ -888,7 +883,6 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 	
 	if (_resultsModeEnabled != flag){
 		
-		//Hide / show the shadow
 		[self.layer setMasksToBounds:!flag];
 		
 		UIScrollView * scrollView = self.scrollView;
@@ -1329,7 +1323,6 @@ CGPathRef CGPathCreateDisclosureIndicatorPath(CGPoint arrowPointFront, CGFloat h
         else
         {
             CGContextSaveGState(context);
-            CGContextSetShadowWithColor(context, CGSizeMake(0, 1), 1, [[[UIColor whiteColor] colorWithAlphaComponent:0.6] CGColor]);
             CGContextFillPath(context);
             CGContextRestoreGState(context);
             
@@ -1342,9 +1335,6 @@ CGPathRef CGPathCreateDisclosureIndicatorPath(CGPoint arrowPointFront, CGFloat h
             CGGradientRelease(disclosureGradient);
             
             arrowPoint.y += 0.5;
-            CGPathRef innerShadowPath = CGPathCreateDisclosureIndicatorPath(arrowPoint, _font.pointSize, kDisclosureThickness, NULL);
-            CGContextAddPath(context, innerShadowPath);
-            CGPathRelease(innerShadowPath);
             CGContextSetStrokeColor(context, (CGFloat[4]){0, 0, 0, 0.3});
             CGContextStrokePath(context);
             CGContextRestoreGState(context);
